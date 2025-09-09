@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { useBudget } from "../context/BudgetContext";
 
-export default function Navbar() {
+  function Navbar() {
+  const { budgetMode, setBudgetMode } = useBudget();
   return (
     <header className="topbar">
       <div className="topbar-inner">
@@ -28,7 +30,19 @@ export default function Navbar() {
             Chi Siamo
           </NavLink>
         </nav>
+
+        {/* bottone per la modalità budget */}
+        <button
+        type="button"
+        className="btn-ghost"
+        onClick={() => setBudgetMode(!budgetMode)}
+
+      >
+        {budgetMode ? "Disattiva modalità budget" : "Attiva modalità budget"}
+      </button>
       </div>
     </header>
   );
 }
+
+export default Navbar;
