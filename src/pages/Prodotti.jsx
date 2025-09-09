@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useBudget } from "../context/BudgetContext.jsx";
 
 const Prodotti = () => {
   const [prodotti, setProdotti] = useState([]);
+  const { budgetMode } = useBudget();
 
   useEffect(() => {
     axios.get("https://fakestoreapi.com/products").then((resp) => {
@@ -11,12 +13,16 @@ const Prodotti = () => {
     });
   }, []);
 
+  const visible = budgetMode
+  ? prodotti.filter(p => Number(p.price) <= 30)
+  : prodotti;
+
   return (
     <div className="page">
       <h1 className="page-title">Prodotti</h1>
 
       <div className="products-grid">
-        {prodotti.map((prodotto) => (
+        {visible.map((prodotto) => (
           <div className="products-item" key={prodotto.id}>
             <Link to={`/products/${prodotto.id}`}>
               <article className="product-card">

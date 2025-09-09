@@ -1,13 +1,16 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-export const BudgetContext = createContext();
+const BudgetContext = createContext({ budgetMode: false, setBudgetMode: () => {} });
 
-export const BudgetProvider = ({ children }) => {
+export function BudgetProvider({ children }) {
   const [budgetMode, setBudgetMode] = useState(false);
-
   return (
     <BudgetContext.Provider value={{ budgetMode, setBudgetMode }}>
       {children}
     </BudgetContext.Provider>
   );
-};
+}
+
+export function useBudget() {
+  return useContext(BudgetContext);
+}
